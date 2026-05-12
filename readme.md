@@ -31,3 +31,13 @@ Pada URL tersebut:
 - `5672` adalah port default RabbitMQ untuk koneksi AMQP.
 
 Karena publisher dan subscriber menggunakan URL yang sama, publisher dapat mengirim message ke broker yang sama dengan broker yang didengarkan oleh subscriber. Dengan begitu, message yang dikirim oleh publisher dapat diterima dan diproses oleh subscriber.
+
+## Monitoring Chart
+
+Berikut adalah tampilan RabbitMQ Management setelah publisher dijalankan:
+
+![RabbitMQ monitoring chart setelah publisher dijalankan](assets/rabbitmq-monitoring-chart.png)
+
+Spike pada chart terjadi karena publisher dijalankan dan mengirim beberapa message ke message broker dalam waktu yang sangat singkat. Pada program ini, publisher mengirim 5 message `user_created` setiap kali dijalankan. Ketika message tersebut masuk ke RabbitMQ, grafik message rates mencatat adanya aktivitas publish sehingga muncul kenaikan sementara.
+
+Setelah semua message selesai dikirim dan diproses oleh subscriber, rate kembali turun ke `0.00/s`. Hal ini menunjukkan bahwa spike tersebut berkaitan langsung dengan proses menjalankan publisher: saat publisher aktif mengirim message, chart naik; setelah tidak ada message baru yang dikirim, chart kembali datar.
